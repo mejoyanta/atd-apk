@@ -1,0 +1,2 @@
+# Keep large TFLite models in git (binary OK for private repo).
+# If you switch to Git LFS later, track *.tflite here.

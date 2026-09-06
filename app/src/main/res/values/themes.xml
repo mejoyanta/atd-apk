@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FaceKiosk" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorPrimaryVariant">@color/accent_dark</item>
+        <item name="colorOnPrimary">@color/bg</item>
+        <item name="colorSecondary">@color/accent</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+    </style>
+
+    <style name="Theme.FaceKiosk.Fullscreen" parent="Theme.FaceKiosk">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Widget.FaceKiosk.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">64dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+</resources>

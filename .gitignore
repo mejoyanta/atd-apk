@@ -1,0 +1,32 @@
+# Built artifacts
+/.gradle/
+/build/
+/app/build/
+/local.properties
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# IDE
+/.idea/
+*.iml
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Keystore / secrets — never commit
+*.jks
+*.keystore
+keystore.properties
+secrets.properties
+
+# Face biometric data exports
+*.facekiosk-db
+/exports/
+/backups/
+
+# OS
+Thumbs.db
