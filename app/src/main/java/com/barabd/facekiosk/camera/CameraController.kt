@@ -38,7 +38,29 @@ class CameraController(
         provider.unbindAll()
 
         val preview = Preview.Builder().build().also {
-            it.surfaceProvider = previewView.surfaceProvider
+            // setSurfaceProvider has overloads, so Kotlin has no synthetic surfaceProvider property
+            it.setSurfaceProvider(previewView.surfaceProvider)
+            // #region agent log
+            try {
+                Thread {
+                    try {
+                        val body = """{"sessionId":"a427e0","hypothesisId":"H3","location":"CameraController.kt:start","message":"setSurfaceProvider ok","data":{"previewBound":true},"timestamp":${System.currentTimeMillis()},"runId":"post-fix"}"""
+                        val conn = java.net.URL("http://127.0.0.1:7243/ingest/0f7cc482-4d93-4f47-a1c1-15ee26198b7e").openConnection() as java.net.HttpURLConnection
+                        conn.requestMethod = "POST"
+                        conn.setRequestProperty("Content-Type", "application/json")
+                        conn.setRequestProperty("X-Debug-Session-Id", "a427e0")
+                        conn.doOutput = true
+                        conn.connectTimeout = 500
+                        conn.readTimeout = 500
+                        conn.outputStream.use { os -> os.write(body.toByteArray()) }
+                        conn.responseCode
+                        conn.disconnect()
+                    } catch (_: Exception) {
+                    }
+                }.start()
+            } catch (_: Exception) {
+            }
+            // #endregion
         }
 
         val analysis = ImageAnalysis.Builder()

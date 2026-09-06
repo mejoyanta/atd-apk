@@ -53,8 +53,8 @@ class EnrollActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         camera = CameraController(this, this, binding.previewView).also { cam ->
-            cam.onFrame = { bitmap ->
-                if (!pendingCapture || busy) return@onFrame
+            cam.onFrame = frame@{ bitmap ->
+                if (!pendingCapture || busy) return@frame
                 pendingCapture = false
                 busy = true
                 lifecycleScope.launch {

@@ -64,8 +64,8 @@ class IdentifyActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         camera = CameraController(this, this, binding.previewView).also { cam ->
-            cam.onFrame = { bitmap ->
-                if (busy || !app.facePipeline.modelsReady) return@onFrame
+            cam.onFrame = frame@{ bitmap ->
+                if (busy || !app.facePipeline.modelsReady) return@frame
                 busy = true
                 lifecycleScope.launch {
                     val people = withContext(Dispatchers.IO) { app.personRepository.all() }
