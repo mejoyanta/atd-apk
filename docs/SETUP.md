@@ -11,9 +11,13 @@
 
 1. Push to `main` (or create tag `v1.0.0`) or run **Actions → Android APK → Run workflow**
 2. Open the successful run → **Artifacts**
-3. Download `facekiosk-debug.apk` or `facekiosk-v*.apk`
-4. On tablet: allow install from unknown sources / Files
-5. Install the APK
+3. Download the artifact (GitHub always gives a **ZIP**, even if the name ends in `.apk`)
+4. On the phone/PC: **unzip / extract** the ZIP first — do **not** rename the ZIP to `.apk`
+5. Open the extracted `facekiosk-debug.apk` (or `facekiosk-v*.apk`)
+6. Allow install from unknown sources / Files, then Install
+7. Confirm the app appears as **Face Attendance** under Settings → Apps
+
+If Settings → Apps has no **Face Attendance**, install did not succeed — extract the real `.apk` and try again (or copy `facekiosk-debug.apk` from a PC build via USB/Drive).
 
 You do **not** need Android Studio on the tablet PC for day-to-day installs.
 
@@ -55,6 +59,7 @@ You do **not** need Android Studio on the tablet PC for day-to-day installs.
 | Always unknown | Re-enroll lighting; one face only |
 | Always spoof | Avoid screen glare; real face distance |
 | Models missing | Add TFLite files per MODELS.md and rebuild |
+| **App not installed** | Do **not** install the GitHub ZIP; unzip first. Prefer USB copy of `facekiosk-release.apk` (not WhatsApp/Telegram — they often corrupt APKs). Uninstall any old Face Attendance first. Use the **release** APK (`debuggable=false`); debug APKs are rejected on many phones. |
 
 ## Signed release (optional)
 

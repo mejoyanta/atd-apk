@@ -33,19 +33,14 @@ jobs:
           if [ -n "$KEYSTORE_BASE64" ]; then
             echo "$KEYSTORE_BASE64" | base64 -d > "${GITHUB_WORKSPACE}/release.jks"
             echo "present=true" >> "$GITHUB_OUTPUT"
+            echo "KEYSTORE_PATH=${GITHUB_WORKSPACE}/release.jks" >> "$GITHUB_ENV"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "No KEYSTORE_BASE64 secret — building debug APK"
+            echo "No KEYSTORE_BASE64 secret — release APK will be signed with debug key"
           fi
 
-      - name: Build debug APK
-        if: steps.keystore.outputs.present != 'true'
-        run: ./gradlew assembleDebug --stacktrace
-
       - name: Build release APK
-        if: steps.keystore.outputs.present == 'true'
         env:
-          KEYSTORE_PATH: ${{ github.workspace }}/release.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -54,13 +49,8 @@ jobs:
       - name: Locate APK
         id: apk
         run: |
-          if [ -f app/build/outputs/apk/release/app-release.apk ]; then
-            SRC="app/build/outputs/apk/release/app-release.apk"
-            NAME="facekiosk-release.apk"
-          else
-            SRC="app/build/outputs/apk/debug/app-debug.apk"
-            NAME="facekiosk-debug.apk"
-          fi
+          SRC="app/build/outputs/apk/release/app-release.apk"
+          NAME="facekiosk-release.apk"
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
             TAG="${GITHUB_REF#refs/tags/}"
             NAME="facekiosk-${TAG}.apk"
@@ -72,6 +62,8 @@ jobs:
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.apk.outputs.file }}
+          # Artifact download is always a ZIP; avoid ".apk" in the artifact name
+          # so users do not try to install the ZIP as an APK.
+          name: facekiosk-apk
           path: ${{ steps.apk.outputs.file }}
           retention-days: 14

@@ -16,12 +16,13 @@ Product plan: [`ins.md`](ins.md)
 ```text
 git push / tag v*
   → Actions workflow "Android APK"
-  → Artifacts → facekiosk-*.apk
+  → Artifacts → facekiosk-apk (ZIP) → extract → facekiosk-*.apk
 ```
 
 - Triggers: push to `main`, tags `v*`, manual `workflow_dispatch`
 - Without keystore secrets → **debug** APK
 - With secrets `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD` → **signed release** APK
+- GitHub Artifacts download as a **ZIP** — unzip before installing; after install the launcher name is **Face Attendance**
 
 Local fallback (optional): Android Studio → Run / `./gradlew assembleDebug`
 
