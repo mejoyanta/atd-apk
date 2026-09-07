@@ -25,18 +25,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Decode release keystore (optional)
-        id: keystore
+      - name: Decode production keystore (optional override)
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
           if [ -n "$KEYSTORE_BASE64" ]; then
             echo "$KEYSTORE_BASE64" | base64 -d > "${GITHUB_WORKSPACE}/release.jks"
-            echo "present=true" >> "$GITHUB_OUTPUT"
             echo "KEYSTORE_PATH=${GITHUB_WORKSPACE}/release.jks" >> "$GITHUB_ENV"
+            echo "Using KEYSTORE_BASE64 secret"
           else
-            echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "No KEYSTORE_BASE64 secret — release APK will be signed with debug key"
+            echo "Using committed app/signing/facekiosk-release.jks"
           fi
 
       - name: Build release APK

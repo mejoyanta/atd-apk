@@ -17,9 +17,11 @@ captures/
 .externalNativeBuild/
 .cxx/
 
-# Keystore / secrets — never commit
+# Keystore / secrets — never commit private production keys.
+# The committed dist keystore below is for kiosk sideload builds only.
 *.jks
 *.keystore
+!app/signing/facekiosk-release.jks
 keystore.properties
 secrets.properties
 

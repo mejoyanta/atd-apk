@@ -59,7 +59,7 @@ You do **not** need Android Studio on the tablet PC for day-to-day installs.
 | Always unknown | Re-enroll lighting; one face only |
 | Always spoof | Avoid screen glare; real face distance |
 | Models missing | Add TFLite files per MODELS.md and rebuild |
-| **App not installed** | Do **not** install the GitHub ZIP; unzip first. Prefer USB copy of `facekiosk-release.apk` (not WhatsApp/Telegram — they often corrupt APKs). Uninstall any old Face Attendance first. Use the **release** APK (`debuggable=false`); debug APKs are rejected on many phones. |
+| **App not installed** (esp. Xiaomi/MIUI) | 1) Unzip GitHub artifact — do not install the ZIP. 2) Copy `facekiosk-release.apk` via **USB/Drive** (not WhatsApp). 3) Uninstall any old Face Attendance / `com.barabd.facekiosk` / `.debug`. 4) Settings → Play Protect → turn off scan. 5) Install from **Files** → Downloads. 6) If still blocked: Developer options → disable **MIUI optimization**, reboot, retry. |
 
 ## Signed release (optional)
 

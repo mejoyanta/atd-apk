@@ -12,13 +12,15 @@ android {
         applicationId = "com.barabd.facekiosk"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         create("release") {
+            // Optional CI/production override via env; otherwise use committed
+            // distribution keystore (not the Android Debug cert — MIUI rejects those).
             val keystorePath = System.getenv("KEYSTORE_PATH")
             val keystorePassword = System.getenv("KEYSTORE_PASSWORD")
             val keyAlias = System.getenv("KEY_ALIAS")
@@ -32,7 +34,14 @@ android {
                 storePassword = keystorePassword
                 this.keyAlias = keyAlias
                 this.keyPassword = keyPassword
+            } else {
+                storeFile = file("signing/facekiosk-release.jks")
+                storePassword = "FaceKioskDist2026"
+                this.keyAlias = "facekiosk"
+                this.keyPassword = "FaceKioskDist2026"
             }
+            enableV1Signing = true
+            enableV2Signing = true
         }
     }
 
@@ -44,15 +53,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // Prefer release keystore when provided; otherwise sign with debug
-            // key so sideload installs work (unsigned/debuggable APKs often
-            // show "App not installed" on OEM package installers).
-            val releaseSigning = signingConfigs.findByName("release")
-            signingConfig = if (releaseSigning?.storeFile != null) {
-                releaseSigning
-            } else {
-                signingConfigs.getByName("debug")
-            }
+            signingConfig = signingConfigs.getByName("release")
         }
         debug {
             applicationIdSuffix = ".debug"
