@@ -12,8 +12,8 @@ android {
         applicationId = "com.barabd.facekiosk"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -77,6 +77,11 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+        // MIUI/Xiaomi often rejects APKs with extractNativeLibs=false
+        // (INSTALL_FAILED_INVALID_APK → "The app wasn't installed").
+        jniLibs {
+            useLegacyPackaging = true
         }
     }
 
